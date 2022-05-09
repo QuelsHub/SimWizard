@@ -14,6 +14,16 @@ namespace SimWizard
 {
     public partial class SimAdd : Form
     {
+        //Main _owner;
+        //public SimAdd(Main owner)
+        //{
+        //    _owner = owner;
+        //    this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SimAdd_FormClosing);
+        //}
+        //private void SimAdd_FormClosing(object sender, FormClosingEventArgs e)
+        //{
+        //    _owner.PerformRefresh();
+        //}
 
         //List<Sim> sims = new List<Sim>();
         internal List<SpecialSim> sim2 = new List<SpecialSim>();
@@ -49,16 +59,18 @@ namespace SimWizard
         public void delete()
         {
 
-            MessageBox.Show("Are you sure you want to delete this item?", "Delete", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete this item?", "Delete", MessageBoxButtons.YesNo);
 
-            if (DialogResult == DialogResult.Yes)
+            if (dialogResult == DialogResult.Yes)
             {
+
                 simCopy.RemoveAll(s => s.ID == simIDCopy);
                 balanceCopy.RemoveAll(s => s.ID == simIDCopy);
                 save();
-                MessageBox.Show("Item is succesfully removew", "Delete", MessageBoxButtons.OK);
 
-                if (DialogResult == DialogResult.OK)
+                dialogResult = MessageBox.Show("Item is succesfully removed", "Delete", MessageBoxButtons.OK);
+
+                if (dialogResult == DialogResult.OK)
                 {
                     this.Close();
                 }
@@ -78,6 +90,7 @@ namespace SimWizard
             balanceCopy = balancetmp;   
             var a = simtmp.Where(s => s.ID == simID).Select(s => new { ID = s.ID, Status = s.Status, Type = s.Type, s.Pin, s.Puk, s.Name, s.ValidFrom }).ToList();
             var b = balancetmp.Where(s => s.ID == simID).GroupBy(s => s.ID).Select(s => new {ID = s.Key, Balance = s.Sum(x => x.Volume)}).ToList();
+            
             InitializeComponent();
 
             foreach (var item in a)
@@ -230,6 +243,16 @@ namespace SimWizard
             balanceCopy = balancetmp;
             InitializeComponent();
 
+            var maxTopID = (from max in simCopy
+                            where !String.IsNullOrEmpty(max.ID)
+                            select Convert.ToInt32(max.ID)).Max() + 1;
+
+            tbID.Text = maxTopID.ToString();
+
+            tbCreationDate.Text = DateAndTime.Now.ToString("yyyy.MM.dd");
+            cbStatus.SelectedItem = "Active";
+            cbType.SelectedItem = "Normal";
+            tbBalanceChange.Text = "0";
             lbPuk.Visible = false;
             mtbPuk.Visible = false;
         }
@@ -265,7 +288,16 @@ namespace SimWizard
 
                     balances.ID = newsim[0];
                     balances.Date = DateTime.Now;
-                    balances.Volume = Convert.ToInt32(newsim[8]);
+                    
+                    if (newsim[8] == "")
+                    {
+                        balances.Volume = 0;
+                    }
+                    else
+                    {
+                        balances.Volume = Convert.ToInt32(newsim[8]);
+                    }
+                    
 
                     balanceCopy.Add(balances);
 
@@ -320,5 +352,14 @@ namespace SimWizard
             }
            
         }
+
+        private void tbBalanceChange_Validated(object sender, EventArgs e)
+        {
+            if (tbBalanceChange.Text == "")
+            {
+                tbBalanceChange.Text = "0";
+            }
+        }
     }
+
 }

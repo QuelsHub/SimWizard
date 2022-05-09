@@ -31,16 +31,15 @@ namespace SimWizard
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.controllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dgBalance = new System.Windows.Forms.DataGridView();
             this.dgSim = new System.Windows.Forms.DataGridView();
             this.btSimSearch = new System.Windows.Forms.Button();
             this.tbSimSearch = new System.Windows.Forms.TextBox();
-            this.clSim = new System.Windows.Forms.CheckedListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btSimAdd = new System.Windows.Forms.Button();
+            this.lbSim = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgBalance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgSim)).BeginInit();
@@ -59,18 +58,10 @@ namespace SimWizard
             // menuToolStripMenuItem
             // 
             this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.searchToolStripMenuItem,
             this.controllToolStripMenuItem});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menuToolStripMenuItem.Text = "Menu";
-            // 
-            // searchToolStripMenuItem
-            // 
-            this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
-            this.searchToolStripMenuItem.Text = "Search";
-            this.searchToolStripMenuItem.Click += new System.EventHandler(this.searchToolStripMenuItem_Click);
             // 
             // controllToolStripMenuItem
             // 
@@ -94,10 +85,13 @@ namespace SimWizard
             this.dgSim.Name = "dgSim";
             this.dgSim.Size = new System.Drawing.Size(962, 151);
             this.dgSim.TabIndex = 2;
+            this.dgSim.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgSim_CellClick);
+            this.dgSim.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgSim_CellContentDoubleClick);
+            this.dgSim.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgSim_KeyDown);
             // 
             // btSimSearch
             // 
-            this.btSimSearch.Location = new System.Drawing.Point(27, 44);
+            this.btSimSearch.Location = new System.Drawing.Point(119, 85);
             this.btSimSearch.Name = "btSimSearch";
             this.btSimSearch.Size = new System.Drawing.Size(75, 23);
             this.btSimSearch.TabIndex = 3;
@@ -107,22 +101,10 @@ namespace SimWizard
             // 
             // tbSimSearch
             // 
-            this.tbSimSearch.Location = new System.Drawing.Point(108, 46);
+            this.tbSimSearch.Location = new System.Drawing.Point(119, 59);
             this.tbSimSearch.Name = "tbSimSearch";
             this.tbSimSearch.Size = new System.Drawing.Size(278, 20);
             this.tbSimSearch.TabIndex = 4;
-            // 
-            // clSim
-            // 
-            this.clSim.FormattingEnabled = true;
-            this.clSim.Items.AddRange(new object[] {
-            "Normal Sim",
-            "Special Sim"});
-            this.clSim.Location = new System.Drawing.Point(108, 72);
-            this.clSim.Name = "clSim";
-            this.clSim.Size = new System.Drawing.Size(83, 34);
-            this.clSim.TabIndex = 5;
-            this.clSim.SelectedIndexChanged += new System.EventHandler(this.checkedListBox1_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -144,7 +126,7 @@ namespace SimWizard
             // 
             // btSimAdd
             // 
-            this.btSimAdd.Location = new System.Drawing.Point(27, 74);
+            this.btSimAdd.Location = new System.Drawing.Point(322, 85);
             this.btSimAdd.Name = "btSimAdd";
             this.btSimAdd.Size = new System.Drawing.Size(75, 23);
             this.btSimAdd.TabIndex = 8;
@@ -152,15 +134,25 @@ namespace SimWizard
             this.btSimAdd.UseVisualStyleBackColor = true;
             this.btSimAdd.Click += new System.EventHandler(this.btSimAdd_Click);
             // 
+            // lbSim
+            // 
+            this.lbSim.AutoSize = true;
+            this.lbSim.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lbSim.Location = new System.Drawing.Point(31, 62);
+            this.lbSim.Name = "lbSim";
+            this.lbSim.Size = new System.Drawing.Size(82, 13);
+            this.lbSim.TabIndex = 9;
+            this.lbSim.Text = "Sim you want";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1015, 536);
+            this.Controls.Add(this.lbSim);
             this.Controls.Add(this.btSimAdd);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.clSim);
             this.Controls.Add(this.tbSimSearch);
             this.Controls.Add(this.btSimSearch);
             this.Controls.Add(this.dgSim);
@@ -182,16 +174,15 @@ namespace SimWizard
 
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem searchToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem controllToolStripMenuItem;
         private System.Windows.Forms.DataGridView dgBalance;
         private System.Windows.Forms.DataGridView dgSim;
         private System.Windows.Forms.Button btSimSearch;
         private System.Windows.Forms.TextBox tbSimSearch;
-        private System.Windows.Forms.CheckedListBox clSim;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btSimAdd;
+        private System.Windows.Forms.Label lbSim;
     }
 }
 

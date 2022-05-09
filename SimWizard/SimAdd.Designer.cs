@@ -134,6 +134,7 @@ namespace SimWizard
             this.tbBalanceChange.Name = "tbBalanceChange";
             this.tbBalanceChange.Size = new System.Drawing.Size(100, 20);
             this.tbBalanceChange.TabIndex = 14;
+            this.tbBalanceChange.Validated += new System.EventHandler(this.tbBalanceChange_Validated);
             // 
             // lbBalanceChange
             // 
